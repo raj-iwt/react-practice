@@ -34,15 +34,23 @@ export function Todos() {
                 placeholder="Add a new todo"
             />
             <button onClick={handleAddTodo}>Add</button>
-            <ul>
+            <table className="todo-table">
+                <caption>Todo List</caption>
+                <thead>
+                    <tr>
+                        <th>Todo</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
                 {todos.map((todo) => (
-                    <TodoItem
-                        key={todo.id}
-                        text={todo.text}
-                        onDelete={() => handleDeleteTodo(todo.id)}
-                    />
+                    <tbody key={todo.id}>
+                            <TodoItem
+                                text={todo.text}
+                                onDelete={() => handleDeleteTodo(todo.id)}
+                            />
+                    </tbody>
                 ))}
-            </ul>
+            </table>
         </div>
     );
 }

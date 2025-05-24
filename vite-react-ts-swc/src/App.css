@@ -40,3 +40,43 @@
 .read-the-docs {
   color: #888;
 }
+
+.todo-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.todo-table th,
+.todo-table td {
+  padding: 0.5em;
+  border: 1px solid grey;
+}
+.todo-table th {
+  background-color: rgb(39, 43, 33);
+  text-align: left;
+}
+.todo-table tr:nth-child(even) {
+  background-color: grey;
+}
+.todo-table tr:hover {
+  background-color: darkslategrey;
+}
+.todo-table .todo-item {
+  cursor: pointer;
+}
+.todo-table .todo-item.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+.todo-table .todo-item .delete-button {
+  color: #ff0000;
+  cursor: pointer;
+  margin-left: 1em;
+}
+.todo-table .todo-item .delete-button:hover {
+  color: #cc0000;
+}
+.todo-table .todo-item .edit-button {
+  color: #007bff;
+  cursor: pointer;
+  margin-left: 1em;
+}
