@@ -1,10 +1,12 @@
+import React from 'react';
+
 
 interface TodoItemProps {
     text: string;
     onDelete: () => void;
 }
 
-export function TodoItem(props: TodoItemProps) {
+const TodoItem: React.FC<TodoItemProps> = (props: TodoItemProps) => {
     const { text, onDelete } = props;
     
     return (
@@ -15,3 +17,5 @@ export function TodoItem(props: TodoItemProps) {
     );
 }
 
+// export default React.memo(TodoItem);
+export default TodoItem;

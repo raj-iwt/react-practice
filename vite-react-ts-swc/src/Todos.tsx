@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { TodoItem } from './TodoItem';
+import { use, useEffect, useState } from 'react';
+import TodoItem from './TodoItem';
 
 interface Todo {
     id: number;
     text: string;
 }
 
+const storedTodos = fetch('todos')
+    .then((res) => res.json())
+    .catch(() => {
+        const todos = localStorage.getItem('todos');
+        return todos ? JSON.parse(todos) : [];
+    });
+
 export function Todos() {
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const initialTodos = use(storedTodos) as Todo[];
+    const [todos, setTodos] = useState<Todo[]>(initialTodos);
     const [newTodo, setNewTodo] = useState<string>('');
 
     const handleAddTodo = () => {
@@ -18,11 +26,23 @@ export function Todos() {
         };
         setTodos((prev) => [...prev, newTodoItem]);
         setNewTodo('');
+        localStorage.setItem('todos', JSON.stringify([...todos, newTodoItem]));
     };
 
     const handleDeleteTodo = (id: number) => {
         setTodos((prev) => prev.filter((todo) => todo.id !== id));
+        localStorage.setItem(
+            'todos',
+            JSON.stringify(todos.filter((todo) => todo.id !== id))
+        );
     };
+
+    // useEffect(() => {
+    //     const storedTodos = localStorage.getItem('todos');
+    //     if (storedTodos) {
+    //         setTodos(JSON.parse(storedTodos));
+    //     }
+    // }, []);
 
     return (
         <div>
