@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
-import { useTodo } from './hooks/useTodo';
-import type { Todo } from './types/Todo';
+import { useTodo } from '../hooks/useTodo';
+import type { Todo } from '../types/Todo';
 
 interface TodosProps {
     onTodoSelect: (todo: Todo | null) => void;
