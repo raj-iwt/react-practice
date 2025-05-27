@@ -1,9 +1,10 @@
 import { use, useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
+import { useTodo } from './hooks/useTodo';
+import type { Todo } from './types/Todo';
 
-interface Todo {
-    id: number;
-    text: string;
+interface TodosProps {
+    onTodoSelect: (todo: Todo | null) => void;
 }
 
 const storedTodos = fetch('todos')
@@ -13,10 +14,11 @@ const storedTodos = fetch('todos')
         return todos ? JSON.parse(todos) : [];
     });
 
-export function Todos() {
+export function Todos (prop: TodosProps) {
     const initialTodos = use(storedTodos) as Todo[];
-    const [todos, setTodos] = useState<Todo[]>(initialTodos);
+    const { todos, setTodos } = useTodo(initialTodos);
     const [newTodo, setNewTodo] = useState<string>('');
+    const [ selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
     const handleAddTodo = () => {
         if (newTodo.trim() === '') return;
@@ -36,6 +38,11 @@ export function Todos() {
             JSON.stringify(todos.filter((todo) => todo.id !== id))
         );
     };
+
+    const onTodoSelected = (todo: Todo) => {
+        setSelectedTodo(todo);
+        prop.onTodoSelect(todo);
+    }
 
     // useEffect(() => {
     //     const storedTodos = localStorage.getItem('todos');
@@ -58,13 +65,15 @@ export function Todos() {
                 <caption>Todo List</caption>
                 <thead>
                     <tr>
+                        <th>Select</th>
                         <th>Todo</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 {todos.map((todo) => (
                     <tbody key={todo.id}>
-                            <TodoItem
+                            <TodoItem onTodoSelect={onTodoSelected}
+                                id={todo.id}
                                 text={todo.text}
                                 onDelete={() => handleDeleteTodo(todo.id)}
                             />
@@ -74,3 +83,5 @@ export function Todos() {
         </div>
     );
 }
+
+

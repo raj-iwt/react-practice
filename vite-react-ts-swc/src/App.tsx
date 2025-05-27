@@ -1,24 +1,32 @@
-import { useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import './App.css'
-import { Counter } from './Counter'
-import { Timer } from './Timer'
-import { Form } from './Form';
 import { Todos } from './Todos';
 
 function App() {
-  const [showTimer, setShowTimer] = useState<boolean>(false);
+  const [selectedTodo, setSelectedTodo] = useState<any>(null);
+  const onTodoSelected = (todo: any) => {
+    setSelectedTodo(todo);
+  }
+  
   return (
     <div>
       <h1> React + Typescript Practice</h1>
-      {/* <Counter />
-      <button onClick={() => setShowTimer((s: boolean) => !s)}>
-        {showTimer ? 'Hide' : 'Show'} Timer
-      </button>
-      {showTimer && <Timer />} */}
-
-      {/* <Form /> */}
-
-      <Todos />
+      <Suspense fallback={<div>Loading...</div>}>
+        <h2>Selected Todo</h2>
+        {selectedTodo ? (
+          <div>
+            <h3>{selectedTodo.text}</h3>
+            <p>ID: {selectedTodo.id}</p>
+          </div>
+        ) : (
+          <p>No todo selected</p>
+        )}
+        <h2>Todo List</h2>
+        <Todos onTodoSelect={onTodoSelected} />
+        <p>
+          <small>Note: Todos are stored in localStorage.</small>
+        </p>
+      </Suspense>
     </div>
   )
 }
