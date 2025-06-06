@@ -1,0 +1,29 @@
+{
+  "name": "greet-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "greet": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node --loader ts-node/esm src/cli.tsx"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "ink": "^6.0.0",
+    "inquirer": "^12.6.3",
+    "react": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
