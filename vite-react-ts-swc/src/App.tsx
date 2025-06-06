@@ -1,51 +1,32 @@
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import './App.css'
-import { Todos } from './components/Todos';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import navValues from "./navigation/navValues";
-import navigationContext from './navigation/navigationContext';
-import ComponentPicker from './components/ComponentPicker';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { TodosContainer } from './components/TodosContainer';
 
+import { useEffect } from 'react';
 function App() {
+  
+  useEffect(() => {
+    console.log('Component mounted');
 
-  const navigate = useCallback(
-    (navTo: any) => setNav({current: navTo, navigate}),
-    []
-  );
+    return () => {
+      console.log('Component unmounted');
+    };
+  }, []);
 
-  const [nav, setNav ] = useState({
-    current: navValues.home,
-    navigate
-  });
-  const [selectedTodo, setSelectedTodo] = useState<any>(null);
-  const onTodoSelected = (todo: any) => {
-    setSelectedTodo(todo);
-  }
 
   return (
     <div>
       <h1> React + Typescript Practice</h1>
-      <navigationContext.Provider  value={nav}>
-        <ComponentPicker currentNavLocation={nav}></ComponentPicker>
-      </navigationContext.Provider>
-      <ErrorBoundary fallback="Something went wrong!">
-        <Suspense fallback={<div>Loading...</div>}>
-          <h2>Selected Todo</h2>
-          {selectedTodo ? (
-            <div>
-              <h3>{selectedTodo.text}</h3>
-              <p>ID: {selectedTodo.id}</p>
-            </div>
-          ) : (
-            <p>No todo selected</p>
-          )}
-          <h2>Todo List</h2>
-          <Todos onTodoSelect={onTodoSelected} />
-          <p>
-            <small>Note: Todos are stored in localStorage.</small>
-          </p>
-        </Suspense>
-      </ErrorBoundary>
+      <BrowserRouter>
+        <nav>
+          <Link to="/"><h2>Home Page</h2></Link> | <Link to="/todos"><h2>About Page</h2></Link>
+        </nav>
+        <Routes>
+          <Route index element={<div>Home</div>} />
+          <Route path='todos' element={<TodosContainer />} />
+        </Routes>
+      </BrowserRouter>
+
     </div>
   )
 }
